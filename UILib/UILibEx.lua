@@ -1,4 +1,4 @@
-local UILib = loadstring(game:HttpGet("https://raw.githubusercontent.com/M7ilan/UI/main/UILib/UILib.lua"))()
+local UILib = loadstring(game:HttpGet("https://raw.githubusercontent.com/M7ilan/Roblox/main/UILib/UILib.lua"))()
 
 local UILib = UILib.CreateWindow("GUI Example")
 
