@@ -30,11 +30,11 @@ function UILib.CreateWindow(libName, version, logoId)
     key1.Size = UDim2.new(0, 76, 0, 22)
     key1.ZIndex = 2
     key1.Font = Enum.Font.GothamSemibold
-    key1.Text = "F1"
+    key1.Text = "LeftAlt"
     key1.TextColor3 = Color3.fromRGB(153, 255, 238)
     key1.TextSize = 14.000
 
-    local oldKey = Enum.KeyCode.F1.Name
+    local oldKey = Enum.KeyCode.LeftAlt.Name
 
     key1.MouseButton1Click:connect(
         function(e)
