@@ -1,4 +1,4 @@
-#UI Lib Example
+#UI_Lib_Example
 
 ```
 local UILib = loadstring(game:HttpGet("https://raw.githubusercontent.com/M7ilan/Roblox/main/UILib/UILib.lua"))()
