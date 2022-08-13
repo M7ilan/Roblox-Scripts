@@ -200,7 +200,7 @@ function UILib.CreateWindow(libName, version, logoId)
     usename.ZIndex = 2
     usename.Font = Enum.Font.GothamSemibold
     usename.Text = version
-    usename.TextColor3 = Color3.fromRGB(16, 64, 32)
+    usename.TextColor3 = Color3.fromRGB(32, 128, 64)
     usename.TextSize = 12.000
     usename.TextWrapped = true
     usename.TextXAlignment = Enum.TextXAlignment.Left
@@ -264,7 +264,7 @@ function UILib.CreateWindow(libName, version, logoId)
 
         tabBtn.Name = "tabBtn"
         tabBtn.Parent = tabBtnFrame
-        tabBtn.BackgroundColor3 = Color3.fromRGB(166, 248, 255)
+        tabBtn.BackgroundColor3 = Color3.fromRGB(16, 64, 32)
         tabBtn.BackgroundTransparency = 1.000
         tabBtn.Position = UDim2.new(0.245534033, 0, 0, 0)
         tabBtn.Size = UDim2.new(0, 101, 0, 30)
