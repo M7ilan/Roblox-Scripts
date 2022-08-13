@@ -1,35 +1,48 @@
 local UILib = loadstring(game:HttpGet("https://raw.githubusercontent.com/M7ilan/Roblox/main/UILib/UILib.lua"))()
 
-local UILib = UILib.CreateWindow("GUI Example")
+local Window = UILib.CreateWindow("UI Example") -- UI Window
 
 
 
-local Examples = UILib:Tab("Examples")
-local ff = Examples:Section("All Examples")
-ff:Label("Welcome to M7ilan GUI")
+local Tab1 = Window:Tab("Examples") -- Tab
+local Section1 = Tab1:Section("All Example") -- Section
 
-ff:Button("TextButton Text", function()
+
+
+Section1:Label("Welcome to M7Lib!") -- Lable
+
+Section1:Button("Text Button", function() -- Text Button
     print("Clicked!")
 end)
 
-ff:Toggle("Toggle Me!", false, function(isToggled)
-    print(isToggled) -- prints true or false
+Section1:Toggle("Toggle Me!", false, function(bool) -- default toggled off
+    print(bool) -- prints true or false
 end)
 
-ff:KeyBind("Print('Hey') on bind", Enum.KeyCode.R, function() --Enum.KeyCode.R is starting Key
+Section1:Toggle("Toggle Me!", true, function(bool) -- default toggled on
+    print(bool) -- prints true or false
+end)
+
+Section1:KeyBind("Print 'Hey' on key click", Enum.KeyCode.R, function() -- Enum.KeyCode.R (R Key) is the default Key
     print('Hey')
 end)
 
-ff:TextBox("TextBox Info", "Epic PlaceHolder", function(getText)
-    print(getText) -- Prints whatever player types
+Section1:TextBox("TextBox Info", "PlaceHolder", function(Text) --Text Box
+    print(Text) -- Prints whatever player types
 end)
 
-ff:Slider("WalkSpeed", 16, 500, function(currentValue)
+Section1:Slider("Player Speed", 16, 500, function(currentValue) -- Slider
     game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = currentValue
 end)
 
-ff:DropDown("Favorite Food?", {"Pizza", "Burger", "Sandwiches"}, function(food) -- food is chosen item
-    print(food)
+Section1:DropDown("Favorite Game?", {"Roblox", "Destiny 2", "Minceraft"}, function(game) -- DropDown
+    print(game)
 end)
 
-ff:DestroyButton()
+
+
+
+
+Section1:Button("Destroy GUI", function() -- Text Button
+    Window:DestroyButton() -- Destroy GUI
+end)
