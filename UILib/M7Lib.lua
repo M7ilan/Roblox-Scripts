@@ -200,7 +200,7 @@ function UILib.CreateWindow(libName, version, logoId)
     usename.ZIndex = 2
     usename.Font = Enum.Font.GothamSemibold
     usename.Text = version
-    usename.TextColor3 = Color3.fromRGB(40, 160, 80)
+    usename.TextColor3 = Color3.fromRGB(32, 128, 64)
     usename.TextSize = 12.000
     usename.TextWrapped = true
     usename.TextXAlignment = Enum.TextXAlignment.Left
