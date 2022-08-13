@@ -30,11 +30,11 @@ function UILib.CreateWindow(libName, version, logoId)
     key1.Size = UDim2.new(0, 76, 0, 22)
     key1.ZIndex = 2
     key1.Font = Enum.Font.GothamSemibold
-    key1.Text = "LeftAlt"
+    key1.Text = "RightShift"
     key1.TextColor3 = Color3.fromRGB(50, 200, 100)
     key1.TextSize = 14.000
 
-    local oldKey = Enum.KeyCode.LeftAlt.Name
+    local oldKey = Enum.KeyCode.RightShift.Name
 
     key1.MouseButton1Click:connect(
         function(e)
@@ -215,7 +215,7 @@ function UILib.CreateWindow(libName, version, logoId)
     wave.BackgroundTransparency = 1.000
     wave.Position = UDim2.new(0.0213434305, 0, 0, 0)
     wave.Size = UDim2.new(0.97865659, 0, 0.557522118, 0)
-    wave.Image = "http://www.roblox.com/asset/?id=6087537285"
+    wave.Image = ""
     wave.ImageColor3 = Color3.fromRGB(181, 249, 255)
     wave.ImageTransparency = 0.300
     wave.ScaleType = Enum.ScaleType.Slice
