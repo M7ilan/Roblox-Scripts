@@ -215,7 +215,7 @@ function UILib.CreateWindow(libName, version, logoId)
     wave.BackgroundTransparency = 1.000
     wave.Position = UDim2.new(0.0213434305, 0, 0, 0)
     wave.Size = UDim2.new(0.97865659, 0, 0.557522118, 0)
-    wave.Image = "http://www.roblox.com/asset/?id=10578402520"
+    wave.Image = "rbxassetid://10578402520"
     wave.ImageColor3 = Color3.fromRGB(181, 249, 255)
     wave.ImageTransparency = 0.300
     wave.ScaleType = Enum.ScaleType.Slice
