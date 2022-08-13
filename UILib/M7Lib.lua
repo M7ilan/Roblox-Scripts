@@ -31,7 +31,7 @@ function UILib.CreateWindow(libName, version, logoId)
     key1.ZIndex = 2
     key1.Font = Enum.Font.GothamSemibold
     key1.Text = "LeftAlt"
-    key1.TextColor3 = Color3.fromRGB(88, 199, 120)
+    key1.TextColor3 = Color3.fromRGB(50, 200, 100)
     key1.TextSize = 14.000
 
     local oldKey = Enum.KeyCode.LeftAlt.Name
@@ -152,7 +152,7 @@ function UILib.CreateWindow(libName, version, logoId)
 
     hubLogo.Name = "hubLogo"
     hubLogo.Parent = sideHeading
-    hubLogo.BackgroundColor3 = Color3.fromRGB(88, 199, 120)
+    hubLogo.BackgroundColor3 = Color3.fromRGB(50, 200, 100)
     hubLogo.Position = UDim2.new(0.0567928664, 0, 0.0243411884, 0)
     hubLogo.Size = UDim2.new(0, 30, 0, 30)
     hubLogo.ZIndex = 2
@@ -171,7 +171,7 @@ function UILib.CreateWindow(libName, version, logoId)
     hubName.ZIndex = 2
     hubName.Font = Enum.Font.GothamSemibold
     hubName.Text = libName
-    hubName.TextColor3 = Color3.fromRGB(88, 199, 120)
+    hubName.TextColor3 = Color3.fromRGB(50, 200, 100)
     hubName.TextSize = 14.000
     hubName.TextWrapped = true
     hubName.TextXAlignment = Enum.TextXAlignment.Left
@@ -200,7 +200,7 @@ function UILib.CreateWindow(libName, version, logoId)
     usename.ZIndex = 2
     usename.Font = Enum.Font.GothamSemibold
     usename.Text = version
-    usename.TextColor3 = Color3.fromRGB(103, 172, 161)
+    usename.TextColor3 = Color3.fromRGB(90, 200, 120)
     usename.TextSize = 12.000
     usename.TextWrapped = true
     usename.TextXAlignment = Enum.TextXAlignment.Left
@@ -271,7 +271,7 @@ function UILib.CreateWindow(libName, version, logoId)
         tabBtn.ZIndex = 2
         tabBtn.Font = Enum.Font.Gotham
         tabBtn.Text = tabText
-        tabBtn.TextColor3 = Color3.fromRGB(88, 199, 120)
+        tabBtn.TextColor3 = Color3.fromRGB(50, 200, 100)
         tabBtn.TextSize = 14.000
         tabBtn.TextXAlignment = Enum.TextXAlignment.Left
 
@@ -284,7 +284,7 @@ function UILib.CreateWindow(libName, version, logoId)
         tabLogo.Size = UDim2.new(0, 25, 0, 25)
         tabLogo.ZIndex = 2
         tabLogo.Image = "rbxassetid://" .. tabId
-        tabLogo.ImageColor3 = Color3.fromRGB(88, 199, 120)
+        tabLogo.ImageColor3 = Color3.fromRGB(50, 200, 100)
         --
 
         local newPage = Instance.new("ScrollingFrame")
@@ -357,14 +357,14 @@ function UILib.CreateWindow(libName, version, logoId)
                     tabLogo,
                     TweenInfo.new(0.18, Enum.EasingStyle.Quint, Enum.EasingDirection.In),
                     {
-                        ImageColor3 = Color3.fromRGB(88, 199, 120)
+                        ImageColor3 = Color3.fromRGB(50, 200, 100)
                     }
                 ):Play()
                 game.TweenService:Create(
                     tabBtn,
                     TweenInfo.new(0.18, Enum.EasingStyle.Quint, Enum.EasingDirection.In),
                     {
-                        TextColor3 = Color3.fromRGB(88, 199, 120)
+                        TextColor3 = Color3.fromRGB(50, 200, 100)
                     }
                 ):Play()
             end
@@ -451,7 +451,7 @@ function UILib.CreateWindow(libName, version, logoId)
             sectionName.Size = UDim2.new(0, 302, 0, 36)
             sectionName.Font = Enum.Font.GothamSemibold
             sectionName.Text = sectionText
-            sectionName.TextColor3 = Color3.fromRGB(88, 199, 120)
+            sectionName.TextColor3 = Color3.fromRGB(50, 200, 100)
             sectionName.TextSize = 14.000
             sectionName.TextXAlignment = Enum.TextXAlignment.Left
 
@@ -462,7 +462,7 @@ function UILib.CreateWindow(libName, version, logoId)
             sectionExpannd.Size = UDim2.new(0, 25, 0, 25)
             sectionExpannd.ZIndex = 2
             sectionExpannd.Image = "rbxassetid://3926305904"
-            sectionExpannd.ImageColor3 = Color3.fromRGB(88, 199, 120)
+            sectionExpannd.ImageColor3 = Color3.fromRGB(50, 200, 100)
             sectionExpannd.ImageRectOffset = Vector2.new(564, 284)
             sectionExpannd.ImageRectSize = Vector2.new(36, 36)
 
@@ -726,8 +726,8 @@ function UILib.CreateWindow(libName, version, logoId)
                 local on = enabledByDefault
                 local togDe = false
                 if enabledByDefault then
-                    checkBtn.Parent.toggleInfo.TextColor3 = Color3.fromRGB(88, 199, 120)
-                    checkBtn.ImageColor3 = Color3.fromRGB(88, 199, 120)
+                    checkBtn.Parent.toggleInfo.TextColor3 = Color3.fromRGB(50, 200, 100)
+                    checkBtn.ImageColor3 = Color3.fromRGB(50, 200, 100)
                     checkBtn.ImageRectOffset = Vector2.new(4, 836)
                     checkBtn.ImageRectSize = Vector2.new(48, 48)
                     callback(on)
@@ -738,8 +738,8 @@ function UILib.CreateWindow(libName, version, logoId)
                             togDe = true
                             on = not on
                             if on then
-                                checkBtn.Parent.toggleInfo.TextColor3 = Color3.fromRGB(88, 199, 120)
-                                checkBtn.ImageColor3 = Color3.fromRGB(88, 199, 120)
+                                checkBtn.Parent.toggleInfo.TextColor3 = Color3.fromRGB(50, 200, 100)
+                                checkBtn.ImageColor3 = Color3.fromRGB(50, 200, 100)
                                 checkBtn.ImageRectOffset = Vector2.new(4, 836)
                                 checkBtn.ImageRectSize = Vector2.new(48, 48)
                             else
@@ -772,8 +772,8 @@ function UILib.CreateWindow(libName, version, logoId)
                             togDe = true
                             on = not on
                             if on then
-                                checkBtn.Parent.toggleInfo.TextColor3 = Color3.fromRGB(88, 199, 120)
-                                checkBtn.ImageColor3 = Color3.fromRGB(88, 199, 120)
+                                checkBtn.Parent.toggleInfo.TextColor3 = Color3.fromRGB(50, 200, 100)
+                                checkBtn.ImageColor3 = Color3.fromRGB(50, 200, 100)
                                 checkBtn.ImageRectOffset = Vector2.new(4, 836)
                                 checkBtn.ImageRectSize = Vector2.new(48, 48)
                             else
@@ -841,7 +841,7 @@ function UILib.CreateWindow(libName, version, logoId)
                 key.ZIndex = 2
                 key.Font = Enum.Font.GothamSemibold
                 key.Text = oldKey
-                key.TextColor3 = Color3.fromRGB(88, 199, 120)
+                key.TextColor3 = Color3.fromRGB(50, 200, 100)
                 key.TextSize = 14.000
 
                 UICorner_2.CornerRadius = UDim.new(0, 5)
@@ -954,7 +954,7 @@ function UILib.CreateWindow(libName, version, logoId)
                 textboxInfo.TextXAlignment = Enum.TextXAlignment.Left
 
                 TextBox.Parent = textboxFrame
-                TextBox.BackgroundColor3 = Color3.fromRGB(88, 199, 120)
+                TextBox.BackgroundColor3 = Color3.fromRGB(50, 200, 100)
                 TextBox.ClipsDescendants = true
                 TextBox.Position = UDim2.new(0.0250000004, 0, 0.194000006, 0)
                 TextBox.Size = UDim2.new(0, 100, 0, 22)
@@ -1065,7 +1065,7 @@ function UILib.CreateWindow(libName, version, logoId)
 
                 dragSlider.Name = "dragSlider"
                 dragSlider.Parent = sliderbtn
-                dragSlider.BackgroundColor3 = Color3.fromRGB(88, 199, 120)
+                dragSlider.BackgroundColor3 = Color3.fromRGB(50, 200, 100)
                 dragSlider.Size = UDim2.new(0, 0, 0, 6)
                 dragSlider.ZIndex = 2
 
@@ -1424,7 +1424,7 @@ function UILib.CreateWindow(libName, version, logoId)
                 expand_more.Size = UDim2.new(0, 25, 0, 25)
                 expand_more.ZIndex = 2
                 expand_more.Image = "rbxassetid://3926305904"
-                expand_more.ImageColor3 = Color3.fromRGB(88, 199, 120)
+                expand_more.ImageColor3 = Color3.fromRGB(50, 200, 100)
                 expand_more.ImageRectOffset = Vector2.new(564, 284)
                 expand_more.ImageRectSize = Vector2.new(36, 36)
                 dropdownFrame.MouseButton1Click:Connect(dropdown)
@@ -1439,7 +1439,7 @@ function UILib.CreateWindow(libName, version, logoId)
                 dropdownItem1.ZIndex = 2
                 dropdownItem1.Font = Enum.Font.GothamSemibold
                 dropdownItem1.Text = dropInfo
-                dropdownItem1.TextColor3 = Color3.fromRGB(88, 199, 120)
+                dropdownItem1.TextColor3 = Color3.fromRGB(50, 200, 100)
                 dropdownItem1.TextSize = 14.000
                 dropdownItem1.TextXAlignment = Enum.TextXAlignment.Left
 
