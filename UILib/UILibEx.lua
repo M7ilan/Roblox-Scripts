@@ -41,8 +41,4 @@ end)
 
 
 
-
-
-Section1:Button("Destroy GUI", function() -- Text Button
-    Window:DestroyButton() -- Destroy GUI
-end)
+Window:DestroyButton() -- Destroy GUI
