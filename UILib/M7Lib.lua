@@ -123,7 +123,7 @@ function UILib.CreateWindow(libName, version, logoId)
     version = version or game:GetService("Players").LocalPlayer.Name
     --
 
-    M7Lib.Name = "M7Lib" .. libName
+    M7Lib.Name = "M7Lib", libName
     M7Lib.Parent = game.CoreGui
     M7Lib.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
@@ -215,7 +215,7 @@ function UILib.CreateWindow(libName, version, logoId)
     wave.BackgroundTransparency = 1.000
     wave.Position = UDim2.new(0.0213434305, 0, 0, 0)
     wave.Size = UDim2.new(0.97865659, 0, 0.557522118, 0)
-    wave.Image = ""
+    wave.Image = "HERE"
     wave.ImageColor3 = Color3.fromRGB(181, 249, 255)
     wave.ImageTransparency = 0.300
     wave.ScaleType = Enum.ScaleType.Slice
