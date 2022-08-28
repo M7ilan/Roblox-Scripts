@@ -1385,3 +1385,5 @@ end
 
 
 game.StarterGui:SetCore("SendNotification", {Title = "The Script Fully Loaded", Text = ""})
+
+-- Super Power Fighting Simulator Script by M7ilan#5185
