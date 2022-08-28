@@ -1,5 +1,4 @@
 -- Super Power Fighting Simulator Script by M7ilan#5185
--- The Script is Completely Yours!.
 
 local GameName = "Super Power"
 local Version = "2.1.0"
