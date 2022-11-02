@@ -1479,7 +1479,7 @@ function UILib.CreateWindow(libName, version, logoId)
                     optionBtn1.AutoButtonColor = false
                     optionBtn1.Font = Enum.Font.GothamSemibold
                     optionBtn1.Text = "  " .. v
-                    optionBtn1.TextColor3 = Color3.fromRGB(100, 200, 130)
+                    optionBtn1.TextColor3 = Color3.fromRGB(50, 200, 100)
                     optionBtn1.TextSize = 14.000
                     optionBtn1.TextXAlignment = Enum.TextXAlignment.Left
 
