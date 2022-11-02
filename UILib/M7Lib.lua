@@ -609,7 +609,7 @@ function UILib.CreateWindow(libName, version, logoId)
                                 TextButton,
                                 TweenInfo.new(0.18, Enum.EasingStyle.Linear, Enum.EasingDirection.Out),
                                 {
-                                    BackgroundColor3 = Color3.fromRGB(64, 128, 85),
+                                    BackgroundColor3 = Color3.fromRGB(50, 200, 100),
                                     TextColor3 = Color3.fromRGB(0, 0, 0)
                                 }
                             ):Play()
