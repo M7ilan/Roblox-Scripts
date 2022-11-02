@@ -337,7 +337,7 @@ function UILib.CreateWindow(libName, version, logoId)
                                     v,
                                     TweenInfo.new(0.18, Enum.EasingStyle.Quint, Enum.EasingDirection.In),
                                     {
-                                        TextColor3 = Color3.fromRGB(50, 200, 100)
+                                        TextColor3 = Color3.fromRGB(16, 64, 32)
                                     }
                                 ):Play()
                             end
@@ -346,7 +346,7 @@ function UILib.CreateWindow(libName, version, logoId)
                                     v,
                                     TweenInfo.new(0.18, Enum.EasingStyle.Quint, Enum.EasingDirection.In),
                                     {
-                                        ImageColor3 = Color3.fromRGB(50, 200, 100)
+                                        ImageColor3 = Color3.fromRGB(16, 64, 32)
                                     }
                                 ):Play()
                             end
@@ -1533,7 +1533,7 @@ function UILib.CreateWindow(libName, version, logoId)
                                 optionBtn1,
                                 TweenInfo.new(0.18, Enum.EasingStyle.Linear, Enum.EasingDirection.Out),
                                 {
-                                    BackgroundColor3 = Color3.fromRGB(100, 200, 130),
+                                    BackgroundColor3 = Color3.fromRGB(50, 200, 100),
                                     TextColor3 = Color3.fromRGB(0, 0, 0)
                                 }
                             ):Play()
@@ -1560,7 +1560,7 @@ function UILib.CreateWindow(libName, version, logoId)
                                 TweenInfo.new(0.18, Enum.EasingStyle.Linear, Enum.EasingDirection.Out),
                                 {
                                     BackgroundColor3 = Color3.fromRGB(21, 21, 21),
-                                    TextColor3 = Color3.fromRGB(100, 200, 130)
+                                    TextColor3 = Color3.fromRGB(50, 200, 100)
                                 }
                             ):Play()
                         end
