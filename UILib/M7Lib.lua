@@ -896,7 +896,6 @@ function UILib.CreateWindow(libName, version, logoId)
                                 if not keyDebounce then
                                     keyDebounce = true
                                     callback(oldKey)
-                                    wait(0.18)
                                     keyDebounce = false
                                 end
                             end
