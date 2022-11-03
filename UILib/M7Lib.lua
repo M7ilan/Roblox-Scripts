@@ -888,23 +888,23 @@ function UILib.CreateWindow(libName, version, logoId)
                         end
                     end
                 )
-                local keyDebounce = false
-                game:GetService("UserInputService").InputBegan:connect(
-                    function(current, ok)
-                        if not ok then
-                            if current.KeyCode.Name == oldKey then
-                                if not keyDebounce then
-                                    keyDebounce = true
-                                    callback(oldKey)
-                                    keybindFrame:TweenSize(UDim2.new(0, 359, 0, 30), "InOut", "Quint", 0.18, true)
-                                    wait(0.18)
-                                    keybindFrame:TweenSize(UDim2.new(0, 365, 0, 36), "InOut", "Quint", 0.18, true)
-                                    keyDebounce = false
-                                end
-                            end
-                        end
-                    end
-                )
+                -- local keyDebounce = false
+                -- game:GetService("UserInputService").InputBegan:connect(
+                --     function(current, ok)
+                --         if not ok then
+                --             if current.KeyCode.Name == oldKey then
+                --                 if not keyDebounce then
+                --                     keyDebounce = true
+                --                     callback(oldKey)
+                --                     keybindFrame:TweenSize(UDim2.new(0, 359, 0, 30), "InOut", "Quint", 0.18, true)
+                --                     wait(0.18)
+                --                     keybindFrame:TweenSize(UDim2.new(0, 365, 0, 36), "InOut", "Quint", 0.18, true)
+                --                     keyDebounce = false
+                --                 end
+                --             end
+                --         end
+                --     end
+                -- )
             end
 
             function ItemHandling:TextBox(infbix, textPlace, callback)
