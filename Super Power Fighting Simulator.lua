@@ -1,4 +1,6 @@
 -- Super Power Fighting Simulator Script by M7ilan#5185
+-- This script is beta.
+-- the UI-Lib of this script is Luxware-UI-Library.
 
 local GameName = "Super Power"
 local Version = "2.1.0"
