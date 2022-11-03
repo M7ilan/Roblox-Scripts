@@ -896,6 +896,9 @@ function UILib.CreateWindow(libName, version, logoId)
                                 if not keyDebounce then
                                     keyDebounce = true
                                     callback(oldKey)
+                                    keybindFrame:TweenSize(UDim2.new(0, 359, 0, 30), "InOut", "Quint", 0.18, true)
+                                    wait(0.18)
+                                    keybindFrame:TweenSize(UDim2.new(0, 365, 0, 36), "InOut", "Quint", 0.18, true)
                                     keyDebounce = false
                                 end
                             end
