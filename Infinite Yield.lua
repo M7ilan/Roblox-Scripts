@@ -14,7 +14,7 @@ if not game:IsLoaded() then
 	notLoaded:Destroy()
 end
 
-ver = '5.9'
+ver = '5.9.1'
 
 Players = game:GetService("Players")
 
@@ -160,18 +160,17 @@ function randomString()
 end
 
 PARENT = nil
-local SynV3 = syn and DrawingImmediate
-if (not is_sirhurt_closure) and (not SynV3) and (syn and syn.protect_gui) then
-	local Main = Instance.new("ScreenGui")
-	Main.Name = randomString()
-	syn.protect_gui(Main)
-	Main.Parent = COREGUI
-	PARENT = Main
-elseif get_hidden_gui or gethui then
+if get_hidden_gui or gethui then
 	local hiddenUI = get_hidden_gui or gethui
 	local Main = Instance.new("ScreenGui")
 	Main.Name = randomString()
 	Main.Parent = hiddenUI()
+	PARENT = Main
+elseif (not is_sirhurt_closure) and (syn and syn.protect_gui) then
+	local Main = Instance.new("ScreenGui")
+	Main.Name = randomString()
+	syn.protect_gui(Main)
+	Main.Parent = COREGUI
 	PARENT = Main
 elseif COREGUI:FindFirstChild('RobloxGui') then
 	PARENT = COREGUI.RobloxGui
@@ -208,6 +207,19 @@ Title.Size = UDim2.new(0, 250, 0, 20)
 Title.Font = Enum.Font.SourceSans
 Title.TextSize = 18
 Title.Text = "Infinite Yield FE v"..ver
+
+do
+	local emoji = ({
+	    ["4 9"] = "🥚", -- this changes based on full moon but too lazy to do it correctly /shrug make a pr if you want to fix
+	    ["10 31"] = "🎃",
+	    ["12 25"] = "🎄"
+	})[os.date("%m %d")]
+
+	if emoji then
+		Title.Text = ("%s %s %s"):format(emoji, Title.Text, emoji)
+	end
+end
+
 Title.TextColor3 = Color3.new(1, 1, 1)
 Title.ZIndex = 10
 table.insert(shade1,Title)
@@ -1898,11 +1910,11 @@ ChatService = game:GetService("Chat")
 ProximityPromptService = game:GetService("ProximityPromptService")
 StatsService = game:GetService("Stats")
 
-local sethidden = sethiddenproperty or set_hidden_property or set_hidden_prop
-local gethidden = gethiddenproperty or get_hidden_property or get_hidden_prop
-local setsimulation = setsimulationradius or set_simulation_radius
-local queueteleport = (syn and syn.queue_on_teleport) or queue_on_teleport or (fluxus and fluxus.queue_on_teleport)
-local httprequest = (syn and syn.request) or http and http.request or http_request or (fluxus and fluxus.request) or request
+sethidden = sethiddenproperty or set_hidden_property or set_hidden_prop
+gethidden = gethiddenproperty or get_hidden_property or get_hidden_prop
+setsimulation = setsimulationradius or set_simulation_radius
+queueteleport = (syn and syn.queue_on_teleport) or queue_on_teleport or (fluxus and fluxus.queue_on_teleport)
+httprequest = (syn and syn.request) or (http and http.request) or http_request or (fluxus and fluxus.request) or request
 
 function writefileExploit()
 	if writefile then
@@ -2769,17 +2781,13 @@ defaults = HttpService:JSONEncode(defaultsettings)
 local KeepInfYield = true
 nosaves = false
 
-local fileExtension = "iy"
-if SynV3 then fileExtension = "txt" end
-local fileExLen = #fileExtension + 1
-
 local loadedEventData = nil
 function saves()
 	if writefileExploit() then
-		if pcall(function() readfile("IY_FE." .. fileExtension) end) then
-			if readfile("IY_FE." .. fileExtension) ~= nil then
+		if pcall(function() readfile("IY_FE.iy") end) then
+			if readfile("IY_FE.iy") ~= nil then
 				local success, response = pcall(function()
-					local json = HttpService:JSONDecode(readfile("IY_FE." .. fileExtension))
+					local json = HttpService:JSONDecode(readfile("IY_FE.iy"))
 					if json.prefix ~= nil then prefix = json.prefix else prefix = ';' end
 					if json.StayOpen ~= nil then StayOpen = json.StayOpen else StayOpen = false end
 					if json.keepIY ~= nil then KeepInfYield = json.keepIY else KeepInfYield = true end
@@ -2801,19 +2809,19 @@ function saves()
 				if not success then
 					warn("Save Json Error:", response)
 					warn("Overwriting Save File")
-					writefileCooldown("IY_FE." .. fileExtension, defaults)
+					writefileCooldown("IY_FE.iy", defaults)
 					wait()
 					saves()
 				end
 			else
-				writefileCooldown("IY_FE." .. fileExtension, defaults)
+				writefileCooldown("IY_FE.iy", defaults)
 				wait()
 				saves()
 			end
 		else
-			writefileCooldown("IY_FE." .. fileExtension, defaults)
+			writefileCooldown("IY_FE.iy", defaults)
 			wait()
-			if pcall(function() readfile("IY_FE." .. fileExtension) end) then
+			if pcall(function() readfile("IY_FE.iy") end) then
 				saves()
 			else
 				nosaves = true
@@ -2941,7 +2949,7 @@ function updatesaves()
 			currentScroll = {currentScroll.R,currentScroll.G,currentScroll.B};
 			eventBinds = eventEditor.SaveData()
 		}
-		writefileCooldown("IY_FE." .. fileExtension, HttpService:JSONEncode(update))
+		writefileCooldown("IY_FE.iy", HttpService:JSONEncode(update))
 	end
 end
 
@@ -3759,16 +3767,8 @@ JoinLog = function(plr)
 end
 
 local CleanFileName = function(str)
-	str = tostring(str)
-	str = str:gsub("*", "")
-	str = str:gsub("\"", "")
-	str = str:gsub("\\", "")
-	str = str:gsub("?", "")
-	str = str:gsub(":", "")
-	str = str:gsub("<", "")
-	str = str:gsub(">", "")
-	str = str:gsub("|", "")
-	return str
+	local gsub = string.gsub
+	return gsub(str, "[*\\?:<>|]+", "")
 end
 
 SaveChatlogs.MouseButton1Down:Connect(function()
@@ -3801,26 +3801,29 @@ SaveChatlogs.MouseButton1Down:Connect(function()
 end)
 
 task.spawn(function()
-    coroutine.resume(coroutine.create(function()
-        local ChatEvents = ReplicatedStorage:WaitForChild("DefaultChatSystemChatEvents", math.huge)
-        local OnMessageEvent = ChatEvents:WaitForChild("OnMessageDoneFiltering", math.huge).OnClientEvent:Connect(function(data)
-			if data ~= nil then
-				local player = tostring(data.FromSpeaker)
-				local message = tostring(data.Message)
-				local originalchannel = tostring(data.OriginalChannel)
-				if string.find(originalchannel, "To ") then
-					message = "/w " .. string.gsub(originalchannel, "To ", "") .. " " .. message
-				end
-				if originalchannel == "Team" then
-					message = "/team " .. message
-				end
-				eventEditor.FireEvent(player, message)
-				if logsEnabled then
-					CreateLabel(player, message)
-				end
-			end
-        end)
-    end))
+	coroutine.resume(coroutine.create(function()
+		local ChatEvents = ReplicatedStorage:WaitForChild("DefaultChatSystemChatEvents", math.huge)
+		local OnMessageEvent = ChatEvents:WaitForChild("OnMessageDoneFiltering", math.huge)
+        if OnMessageEvent:IsA("RemoteEvent") then
+            OnMessageEvent.OnClientEvent:Connect(function(data)
+                if data ~= nil then
+                    local player = tostring(data.FromSpeaker)
+                    local message = tostring(data.Message)
+                    local originalchannel = tostring(data.OriginalChannel)
+                    if string.find(originalchannel, "To ") then
+                        message = "/w " .. string.gsub(originalchannel, "To ", "") .. " " .. message
+                    end
+                    if originalchannel == "Team" then
+                        message = "/team " .. message
+                    end
+                    eventEditor.FireEvent("OnChatted", player, message)
+                    if logsEnabled then
+                        CreateLabel(player, message)
+                    end
+                end
+            end)
+        end
+	end))
 end)
 
 Players.PlayerRemoving:Connect(function(player)
@@ -4327,6 +4330,8 @@ CMDs[#CMDs + 1] = {NAME = 'clientbring / cbring [plr] (CLIENT)', DESC = 'Bring a
 CMDs[#CMDs + 1] = {NAME = 'loopbring [plr] [distance] [delay] (CLIENT)', DESC = 'Loop brings a player to you (useful for killing)'}
 CMDs[#CMDs + 1] = {NAME = 'unloopbring [plr]', DESC = 'Undoes loopbring'}
 CMDs[#CMDs + 1] = {NAME = 'freeze / fr [plr] (CLIENT)', DESC = 'Freezes a player'}
+CMDs[#CMDs + 1] = {NAME = 'freezeanims', DESC = 'Freezes your animations / pauses your animations - Does not work on default animations'}
+CMDs[#CMDs + 1] = {NAME = 'unfreezeanims', DESC = 'Unfreezes your animations / plays your animations'}
 CMDs[#CMDs + 1] = {NAME = 'thaw / unfr [plr] (CLIENT)', DESC = 'Unfreezes a player'}
 CMDs[#CMDs + 1] = {NAME = 'tpposition / tppos [X Y Z]', DESC = 'Teleports you to certain coordinates'}
 CMDs[#CMDs + 1] = {NAME = 'tweentpposition / ttppos [X Y Z]', DESC = 'Tween to coordinates (bypasses some anti cheats)'}
@@ -4418,10 +4423,8 @@ CMDs[#CMDs + 1] = {NAME = 'noproximitypromptlimits / nopplimits', DESC = 'Sets a
 CMDs[#CMDs + 1] = {NAME = 'fireproximityprompts / firepp', DESC = 'Uses all proximity prompts in a game'}
 CMDs[#CMDs + 1] = {NAME = 'instantproximityprompts / instantpp', DESC = 'Disable the cooldown for proximity prompts'}
 CMDs[#CMDs + 1] = {NAME = 'uninstantproximityprompts / uninstantpp', DESC = 'Undo the cooldown removal'}
-CMDs[#CMDs + 1] = {NAME = 'simulationradius / simradius', DESC = 'Sets your SimulationRadius to math.huge'}
-CMDs[#CMDs + 1] = {NAME = 'nosimulationradius / nosimradius', DESC = 'Turns off the SimulationRadius loop and restores values to default'}
 CMDs[#CMDs + 1] = {NAME = 'tpunanchored / tpua [plr]', DESC = 'Teleports unanchored parts to a player'}
-CMDs[#CMDs + 1] = {NAME = 'freezeunanchored / freezeua', DESC = 'Freezes unanchored parts'}
+CMDs[#CMDs + 1] = {NAME = 'animsunanchored / freezeua', DESC = 'Freezes unanchored parts'}
 CMDs[#CMDs + 1] = {NAME = 'thawunanchored / thawua / unfreezeua', DESC = 'Thaws unanchored parts'}
 CMDs[#CMDs + 1] = {NAME = 'removeterrain / rterrain / noterrain', DESC = 'Removes all terrain'}
 CMDs[#CMDs + 1] = {NAME = 'clearnilinstances / nonilinstances / cni', DESC = 'Removes nil instances'}
@@ -4620,6 +4623,8 @@ CMDs[#CMDs + 1] = {NAME = 'tpwalk / teleportwalk [num]', DESC = 'Teleports you t
 CMDs[#CMDs + 1] = {NAME = 'untpwalk / unteleportwalk', DESC = 'Undoes tpwalk / teleportwalk'}
 CMDs[#CMDs + 1] = {NAME = 'notifyping / ping', DESC = 'Notify yourself your ping'}
 CMDs[#CMDs + 1] = {NAME = 'trip', DESC = 'Makes your character fall over'}
+CMDs[#CMDs + 1] = {NAME = 'norender', DESC = 'Disable 3d Rendering to decrease the amount of CPU the client uses'}
+CMDs[#CMDs + 1] = {NAME = 'render', DESC = 'Enable 3d Rendering'}
 wait()
 
 for i = 1, #CMDs do
@@ -4917,20 +4922,20 @@ end
 
 function addbind(cmd,key,iskeyup,toggle)
 	if toggle then
-	binds[#binds+1]=
-	{
-		COMMAND=cmd;
-		KEY=key;
-		ISKEYUP=iskeyup;
-		TOGGLE = toggle;
-	}
+		binds[#binds+1]=
+			{
+				COMMAND=cmd;
+				KEY=key;
+				ISKEYUP=iskeyup;
+				TOGGLE = toggle;
+			}
 	else
 		binds[#binds+1]=
-		{
-			COMMAND=cmd;
-			KEY=key;
-			ISKEYUP=iskeyup;
-		}
+			{
+				COMMAND=cmd;
+				KEY=key;
+				ISKEYUP=iskeyup;
+			}
 	end
 end
 
@@ -4967,10 +4972,10 @@ end
 
 local GetClosestPlayerFromCursor = function()
 	local found = nil
-    local ClosestDistance = math.huge
-    for i, v in pairs(Players:GetPlayers()) do
-        if v ~= Players.LocalPlayer and v.Character and v.Character:FindFirstChildOfClass("Humanoid") then
-            for k, x in pairs(v.Character:GetChildren()) do
+	local ClosestDistance = math.huge
+	for i, v in pairs(Players:GetPlayers()) do
+		if v ~= Players.LocalPlayer and v.Character and v.Character:FindFirstChildOfClass("Humanoid") then
+			for k, x in pairs(v.Character:GetChildren()) do
 				if string.find(x.Name, "Torso") then
 					local Distance = (WTS(x) - MousePositionToVector2()).Magnitude
 					if Distance < ClosestDistance then
@@ -4978,9 +4983,9 @@ local GetClosestPlayerFromCursor = function()
 						found = v
 					end
 				end
-            end
-        end
-    end
+			end
+		end
+	end
 	return found
 end
 
@@ -5966,17 +5971,17 @@ end)
 PluginsGUI = PluginEditor.background
 
 function addPlugin(name)
-	if name:lower() == 'plugin file name' or name:lower() == 'iy_fe.' .. fileExtension or name == 'iy_fe' then
+	if name:lower() == 'plugin file name' or name:lower() == 'iy_fe.iy' or name == 'iy_fe' then
 		notify('Plugin Error','Please enter a valid plugin')
 	else
 		local file
 		local fileName
-		if name:sub(-fileExLen) == '.' .. fileExtension then
+		if name:sub(-3) == '.iy' then
 			pcall(function() file = readfile(name) end)
 			fileName = name
 		else
-			pcall(function() file = readfile(name..'.'..fileExtension) end)
-			fileName = name..'.' .. fileExtension
+			pcall(function() file = readfile(name..'.iy') end)
+			fileName = name..'.iy'
 		end
 		if file then
 			if not FindInTable(PluginsTable, fileName) then
@@ -5994,8 +5999,8 @@ function addPlugin(name)
 end
 
 function deletePlugin(name)
-	local pName = name..'.' .. fileExtension
-	if name:sub(-fileExLen) == '.' .. fileExtension then
+	local pName = name..'.iy'
+	if name:sub(-3) == '.iy' then
 		pName = name
 	end
 	for i = #cmds,1,-1 do
@@ -6085,33 +6090,35 @@ function LoadPlugin(val,startup)
 		end
 		addcmdtext('',val)
 		addcmdtext(string.upper('--'..plugin["PluginName"]),val,plugin["PluginDescription"])
-		for i,v in pairs(plugin["Commands"]) do 
-			local cmdExt = ''
-			local cmdName = i
-			local function handleNames()
-				cmdName = i
-				if findCmd(cmdName..cmdExt) then
-					if isNumber(cmdExt) then
-						cmdExt = cmdExt+1
+		if plugin["Commands"] then
+			for i,v in pairs(plugin["Commands"]) do 
+				local cmdExt = ''
+				local cmdName = i
+				local function handleNames()
+					cmdName = i
+					if findCmd(cmdName..cmdExt) then
+						if isNumber(cmdExt) then
+							cmdExt = cmdExt+1
+						else
+							cmdExt = 1
+						end
+						handleNames()
 					else
-						cmdExt = 1
+						cmdName = cmdName..cmdExt
 					end
-					handleNames()
+				end
+				handleNames()
+				addcmd(cmdName, v["Aliases"], v["Function"], val)
+				if v["ListName"] then
+					local newName = v.ListName
+					local cmdNames = {i,unpack(v.Aliases)}
+					for i,v in pairs(cmdNames) do
+						newName = newName:gsub(v,v..cmdExt)
+					end
+					addcmdtext(newName,val,v["Description"])
 				else
-					cmdName = cmdName..cmdExt
+					addcmdtext(cmdName,val,v["Description"])
 				end
-			end
-			handleNames()
-			addcmd(cmdName, v["Aliases"], v["Function"], val)
-			if v["ListName"] then
-				local newName = v.ListName
-				local cmdNames = {i,unpack(v.Aliases)}
-				for i,v in pairs(cmdNames) do
-					newName = newName:gsub(v,v..cmdExt)
-				end
-				addcmdtext(newName,val,v["Description"])
-			else
-				addcmdtext(cmdName,val,v["Description"])
 			end
 		end
 		IndexContents('',true)
@@ -6615,8 +6622,8 @@ addcmd('autorejoin',{'autorj'},function(args, speaker)
 end)
 
 addcmd('serverhop',{'shop'},function(args, speaker)
-    -- thanks to NoobSploit for fixing
-    if httprequest then
+	-- thanks to NoobSploit for fixing
+	if httprequest then
 		local servers = {}
 		local req = httprequest({Url = string.format("https://games.roblox.com/v1/games/%s/servers/Public?sortOrder=Asc&limit=100", game.PlaceId)})
 		local body = HttpService:JSONDecode(req.Body)
@@ -6890,6 +6897,7 @@ addcmd('cframefly', {'cfly'}, function(args, speaker)
 	speaker.Character:FindFirstChildOfClass('Humanoid').PlatformStand = true
 	local Head = speaker.Character:WaitForChild("Head")
 	Head.Anchored = true
+	if CFloop then CFloop:Disconnect() end
 	CFloop = RunService.Heartbeat:Connect(function(deltaTime)
 		local moveDirection = speaker.Character:FindFirstChildOfClass('Humanoid').MoveDirection * (CFspeed * deltaTime)
 		local headCFrame = Head.CFrame
@@ -7436,21 +7444,21 @@ addcmd('clientantikick',{'antikick'},function(args, speaker)
 	if not hookmetamethod then 
 		return notify('Incompatible Exploit','Your exploit does not support this command (missing hookmetamethod)')
 	end
-local LocalPlayer = Players.LocalPlayer
-local oldhmmi
-local oldhmmnc
-    oldhmmi = hookmetamethod(game, "__index", function(self, method)
-        if self == LocalPlayer and method:lower() == "kick" then
-            return error("Expected ':' not '.' calling member function Kick", 2)
-        end
-        return oldhmmi(self, method)
-    end)
-    oldhmmnc = hookmetamethod(game, "__namecall", function(self, ...)
-        if self == LocalPlayer and getnamecallmethod():lower() == "kick" then
-            return
-        end
-        return oldhmmnc(self, ...)
-    end)
+	local LocalPlayer = Players.LocalPlayer
+	local oldhmmi
+	local oldhmmnc
+	oldhmmi = hookmetamethod(game, "__index", function(self, method)
+		if self == LocalPlayer and method:lower() == "kick" then
+			return error("Expected ':' not '.' calling member function Kick", 2)
+		end
+		return oldhmmi(self, method)
+	end)
+	oldhmmnc = hookmetamethod(game, "__namecall", function(self, ...)
+		if self == LocalPlayer and getnamecallmethod():lower() == "kick" then
+			return
+		end
+		return oldhmmnc(self, ...)
+	end)
 
 	notify('Client Antikick','Client anti kick is now active (only effective on localscript kick)')
 end)
@@ -7876,14 +7884,14 @@ Input = {} do
 
 		function Input.StartCapture()
 			ContextActionService:BindActionAtPriority("FreecamKeyboard",Keypress,false,INPUT_PRIORITY,
-			Enum.KeyCode.W,
-			Enum.KeyCode.A,
-			Enum.KeyCode.S,
-			Enum.KeyCode.D,
-			Enum.KeyCode.E,
-			Enum.KeyCode.Q,
-			Enum.KeyCode.Up,
-			Enum.KeyCode.Down
+				Enum.KeyCode.W,
+				Enum.KeyCode.A,
+				Enum.KeyCode.S,
+				Enum.KeyCode.D,
+				Enum.KeyCode.E,
+				Enum.KeyCode.Q,
+				Enum.KeyCode.Up,
+				Enum.KeyCode.Down
 			)
 			ContextActionService:BindActionAtPriority("FreecamMousePan",MousePan,false,INPUT_PRIORITY,Enum.UserInputType.MouseMovement)
 		end
@@ -8303,13 +8311,13 @@ addcmd('antiafk',{'antiidle'},function(args, speaker)
 			end
 		end
 	else
-        Players.LocalPlayer.Idled:Connect(function()
-            local VirtualUser = game:GetService("VirtualUser")
-            VirtualUser:CaptureController()
-            VirtualUser:ClickButton2(Vector2.new())
-        end)
+		Players.LocalPlayer.Idled:Connect(function()
+			local VirtualUser = game:GetService("VirtualUser")
+			VirtualUser:CaptureController()
+			VirtualUser:ClickButton2(Vector2.new())
+		end)
 	end
-    notify('Anti Idle','Anti idle is enabled')
+	notify('Anti Idle','Anti idle is enabled')
 end)
 
 addcmd('datalimit',{},function(args, speaker)
@@ -8454,6 +8462,15 @@ addcmd('copyappearanceid',{'caid'},function(args, speaker)
 	end
 end)
 
+addcmd('norender',{},function(args, speaker)
+	RunService:Set3dRenderingEnabled(false)
+end)
+
+addcmd('render',{},function(args, speaker)
+	RunService:Set3dRenderingEnabled(true)
+end)
+
+
 addcmd('goto',{'to'},function(args, speaker)
 	local players = getPlayer(args[1], speaker)
 	for i,v in pairs(players)do
@@ -8487,13 +8504,7 @@ addcmd('vehiclegoto',{'vgoto','vtp','vehicletp'},function(args, speaker)
 	for i,v in pairs(players)do
 		if Players[v].Character ~= nil then
 			local seat = speaker.Character:FindFirstChildOfClass('Humanoid').SeatPart
-			local vehicleModel = seat.Parent
-			repeat
-				if vehicleModel.ClassName ~= "Model" then
-					vehicleModel = vehicleModel.Parent
-				end
-			until vehicleModel.ClassName == "Model"
-			wait(0.1)
+			local vehicleModel = seat:FindFirstAncestorWhichIsA("Model")
 			vehicleModel:MoveTo(getRoot(Players[v].Character).Position)
 		end
 	end
@@ -8752,6 +8763,7 @@ addcmd('freeze',{'fr'},function(args, speaker)
 	end
 end)
 
+
 addcmd('thaw',{'unfreeze','unfr'},function(args, speaker)
 	local players = getPlayer(args[1], speaker)
 	if players ~= nil then
@@ -8826,6 +8838,25 @@ end)
 addcmd('reset',{},function(args, speaker)
 	speaker.Character:BreakJoints()
 end)
+
+addcmd('freezeanims',{},function(args, speaker)
+	local Humanoid = speaker.Character:FindFirstChildOfClass("Humanoid") or speaker.Character:FindFirstChildOfClass("AnimationController")
+	local ActiveTracks = Humanoid:GetPlayingAnimationTracks()
+	for _, v in pairs(ActiveTracks) do
+		v:AdjustSpeed(0)
+	end
+end)
+
+addcmd('unfreezeanims',{},function(args, speaker)
+	local Humanoid = speaker.Character:FindFirstChildOfClass("Humanoid") or speaker.Character:FindFirstChildOfClass("AnimationController")
+	local ActiveTracks = Humanoid:GetPlayingAnimationTracks()
+	for _, v in pairs(ActiveTracks) do
+		v:AdjustSpeed(1)
+	end
+end)
+
+
+
 
 addcmd('respawn',{},function(args, speaker)
 	respawn(speaker)
@@ -9161,7 +9192,6 @@ addcmd('nohead',{'rhead','headless'},function(args, speaker)
 
 		local speaker = Players.LocalPlayer
 
-		sethidden(speaker, "SimulationRadius", math.huge)
 
 		local test = Instance.new("Model")
 		local hum  = Instance.new("Humanoid")
@@ -9294,7 +9324,7 @@ addcmd('unnosit',{},function(args, speaker)
 end)
 
 addcmd('jump',{},function(args, speaker)
-	speaker.Character:FindFirstChildOfClass("Humanoid").Jump = true
+	speaker.Character:FindFirstChildOfClass("Humanoid"):ChangeState(Enum.HumanoidStateType.Jumping)
 end)
 
 addcmd('infjump',{'infinitejump'},function(args, speaker)
@@ -9668,16 +9698,16 @@ addcmd('spoofspeed',{'spoofws','spoofwalkspeed'},function(args, speaker)
 				if (keyclean == "WalkSpeed" or keyclean == "walkSpeed") and self:IsA("Humanoid") and self:IsDescendantOf(char) and not checkcaller() then
 					return setspeed or args[1]
 				end
-                return index(self, key)
+				return index(self, key)
 			end)
-		    local newindex; newindex = hookmetamethod(game, "__newindex", function(self, key, value)
-			    local keyclean = string.gsub(key, "\0", "")
+			local newindex; newindex = hookmetamethod(game, "__newindex", function(self, key, value)
+				local keyclean = string.gsub(key, "\0", "")
 				if (keyclean == "WalkSpeed" or keyclean == "walkSpeed") and self:IsA("Humanoid") and self:IsDescendantOf(char) and not checkcaller() then
 					setspeed = tonumber(value)
 					return setspeed
 				end
-                return newindex(self, key, value)
-		    end)
+				return newindex(self, key, value)
+			end)
 		else
 			notify('Incompatible Exploit','Your exploit does not support this command (missing hookmetamethod)')
 		end
@@ -9722,16 +9752,16 @@ addcmd('spoofjumppower',{'spoofjp'},function(args, speaker)
 				if (keyclean == "JumpPower" or keyclean == "jumpPower") and self:IsA("Humanoid") and self:IsDescendantOf(char) and not checkcaller() then
 					return setpower or args[1]
 				end
-                return index(self, key)
+				return index(self, key)
 			end)
-		    local newindex; newindex = hookmetamethod(game, "__newindex", function(self, key, value)
-			    local keyclean = string.gsub(key, "\0", "")
+			local newindex; newindex = hookmetamethod(game, "__newindex", function(self, key, value)
+				local keyclean = string.gsub(key, "\0", "")
 				if (keyclean == "JumpPower" or keyclean == "jumpPower") and self:IsA("Humanoid") and self:IsDescendantOf(char) and not checkcaller() then
 					setpower = tonumber(value)
 					return setpower
 				end
-                return newindex(self, key, value)
-		    end)
+				return newindex(self, key, value)
+			end)
 		else
 			notify('Incompatible Exploit','Your exploit does not support this command (missing hookmetamethod)')
 		end
@@ -9855,13 +9885,43 @@ addcmd('explorer',{'dex'},function(args, speaker)
         end
         return Objects
     end
-    
+
     local Dex = getobjects("rbxassetid://10055842438")[1]
     Dex.Parent = PARENT
-    
+
     local function Load(Obj, Url)
         local function GiveOwnGlobals(Func, Script)
-            local Fenv, RealFenv, FenvMt = {}, {script = Script}, {}
+            -- Fix for this edit of dex being poorly made
+            -- I (Alex) would like to commemorate whoever added this dex in somehow finding the worst dex to ever exist
+            local Fenv, RealFenv, FenvMt = {}, {
+                script = Script,
+                getupvalue = function(a, b)
+                    return nil -- force it to use globals
+                end,
+                getreg = function() -- It loops registry for some idiotic reason so stop it from doing that and just use a global
+                    return {} -- force it to use globals
+                end,
+                getprops = getprops or function(inst)
+                    if getproperties then
+                        local props = getproperties(inst)
+                        if props[1] and gethiddenproperty then
+                            local results = {}
+                            for _,name in pairs(props) do
+                                local success, res = pcall(gethiddenproperty, inst, name)
+                                if success then
+                                    results[name] = res
+                                end
+                            end
+                            
+                            return results
+                        end
+                        
+                        return props
+                    end
+                    
+                    return {}
+                end
+            }, {}
             FenvMt.__index = function(a,b)
                 return RealFenv[b] == nil and getgenv()[b] or RealFenv[b]
             end
@@ -9876,7 +9936,7 @@ addcmd('explorer',{'dex'},function(args, speaker)
             pcall(setfenv, Func, Fenv)
             return Func
         end
-    
+
         local function LoadScripts(_, Script)
             if Script:IsA("LocalScript") then
                 coroutine.wrap(function()
@@ -9885,17 +9945,17 @@ addcmd('explorer',{'dex'},function(args, speaker)
             end
             table.foreach(Script:GetChildren(), LoadScripts)
         end
-    
+                    
         LoadScripts(nil, Obj)
     end
-    
+
     Load(Dex)
 end)
 
 addcmd('remotespy',{'rspy'},function(args, speaker)
 	notify("Loading",'Hold on a sec')
 	-- Full credit to exx, creator of SimpleSpy
-    -- also thanks to NoobSploit for fixing
+	-- also thanks to NoobSploit for fixing
 	loadstring(game:HttpGet("https://gist.githubusercontent.com/Toon-arch/8f5af8403ca5dabad30763ab2b1cf8d0/raw/87d9847dd85850777e691e46d0c52f9020b42ee2/spy"))()
 end)
 
@@ -9941,15 +10001,14 @@ end)
 
 addcmd('headsit',{},function(args, speaker)
 	local players = getPlayer(args[1], speaker)
+	if headSit then headSit:Disconnect() end
 	for i,v in pairs(players)do
 		speaker.Character:FindFirstChildOfClass('Humanoid').Sit = true
 		headSit = RunService.Heartbeat:Connect(function()
-			if Players[v].Character ~= nil and getRoot(Players[v].Character) and getRoot(speaker.Character) then
-				if Players:FindFirstChild(Players[v].Name) and speaker.Character:FindFirstChildOfClass('Humanoid').Sit == true then
-					getRoot(speaker.Character).CFrame = getRoot(Players[v].Character).CFrame * CFrame.Angles(0,math.rad(0),0)* CFrame.new(0,1.6,0.4)
-				else
-					headSit:Disconnect()
-				end
+			if Players:FindFirstChild(Players[v].Name) and Players[v].Character ~= nil and getRoot(Players[v].Character) and getRoot(speaker.Character) and speaker.Character:FindFirstChildOfClass('Humanoid').Sit == true then
+				getRoot(speaker.Character).CFrame = getRoot(Players[v].Character).CFrame * CFrame.Angles(0,math.rad(0),0)* CFrame.new(0,1.6,0.4)
+			else
+				headSit:Disconnect()
 			end
 		end)
 	end
@@ -9959,6 +10018,7 @@ addcmd('chat',{'say'},function(args, speaker)
 	local cString = getstring(1)
 	ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer(cString, "All")
 end)
+
 
 spamming = false
 spamspeed = 1
@@ -10349,38 +10409,6 @@ addcmd('notifyping',{'ping'},function(args, speaker)
 	notify("Ping", tostring(Current_Ping))
 end)
 
-simRadius = false
-addcmd('simulationradius',{'simradius'},function(args, speaker)
-	if sethidden then		
-		simRadLoop = RunService.Stepped:Connect(function()
-			if setsimulation then
-				setsimulation(1e308, 1/0)
-			else	
-				sethidden(speaker,"MaximumSimulationRadius",1/0)
-				sethidden(speaker,"SimulationRadius", 1e308)
-			end
-		end)
-		simRadius = true
-	else
-		notify('Incompatible Exploit','Your exploit does not support this command (missing sethiddenproperty)')
-	end
-end)
-
-addcmd('nosimulationradius',{'nosimradius','unsimradius'},function(args, speaker)
-	if sethidden then		
-		if simRadLoop then simRadLoop:Disconnect() end
-		wait()
-		if setsimulation then
-			setsimulation(139,139)
-		else	
-			sethidden(speaker,"MaximumSimulationRadius",139)
-			sethidden(speaker,"SimulationRadius", 139)
-		end
-		simRadius = false
-	else
-		notify('Incompatible Exploit','Your exploit does not support this command (missing sethiddenproperty)')
-	end
-end)
 
 addcmd('grabtools', {}, function(args, speaker)
 	local Human = speaker.Character:FindFirstChildWhichIsA("Humanoid")
@@ -11029,17 +11057,21 @@ addcmd('joinlogs',{'jlogs'},function(args, speaker)
 end)
 
 flinging = false
-local flingtbl = {}
 addcmd('fling',{},function(args, speaker)
-	local rootpart = getRoot(speaker.Character)
-	if not rootpart then return end
-	flingtbl.OldVelocity = rootpart.Velocity
-	local bv = Instance.new("BodyAngularVelocity")
-	flingtbl.bv = bv
-	bv.MaxTorque = Vector3.new(1, 1, 1) * math.huge
-	bv.P = math.huge
-	bv.AngularVelocity = Vector3.new(0, 9e5, 0)
-	bv.Parent = rootpart
+	flinging = false
+	for _, child in pairs(speaker.Character:GetDescendants()) do
+		if child:IsA("BasePart") then
+			child.CustomPhysicalProperties = PhysicalProperties.new(math.huge, 0.3, 0.5)
+		end
+	end
+	execCmd('noclip')
+	wait(.1)
+	local bambam = Instance.new("BodyAngularVelocity")
+	bambam.Name = randomString()
+	bambam.Parent = getRoot(speaker.Character)
+	bambam.AngularVelocity = Vector3.new(0,99999,0)
+	bambam.MaxTorque = Vector3.new(0,math.huge,0)
+	bambam.P = math.huge
 	local Char = speaker.Character:GetChildren()
 	for i, v in next, Char do
 		if v:IsA("BasePart") then
@@ -11048,60 +11080,38 @@ addcmd('fling',{},function(args, speaker)
 			v.Velocity = Vector3.new(0, 0, 0)
 		end
 	end
-	flingtbl.Noclipping2 = RunService.Stepped:Connect(function()
-		for i, v in next, Char do
-			if v:IsA("BasePart") then
-				v.CanCollide = false
-			end
-		end
-	end)
 	flinging = true
+	local function flingDiedF()
+		execCmd('unfling')
+	end
+	flingDied = speaker.Character:FindFirstChildOfClass('Humanoid').Died:Connect(flingDiedF)
+	repeat
+		bambam.AngularVelocity = Vector3.new(0,99999,0)
+		wait(.2)
+		bambam.AngularVelocity = Vector3.new(0,0,0)
+		wait(.1)
+	until flinging == false
 end)
 
-addcmd('unfling',{},function(args, speaker)
-	local rootpart = getRoot(speaker.Character)
-	if not rootpart then return end
-	flingtbl.OldPos = rootpart.CFrame
-	local Char = speaker.Character:GetChildren()
-	if flingtbl.bv ~= nil then
-		flingtbl.bv:Destroy()
-		flingtbl.bv = nil
+addcmd('unfling',{'nofling'},function(args, speaker)
+	execCmd('clip')
+	if flingDied then
+		flingDied:Disconnect()
 	end
-	if flingtbl.Noclipping2 ~= nil then
-		flingtbl.Noclipping2:Disconnect()
-		flingtbl.Noclipping2 = nil
-	end
-	for i, v in next, Char do
-		if v:IsA("BasePart") then
-			v.CanCollide = true
-			v.Massless = false
-		end
-	end
-	flingtbl.isRunning = RunService.Stepped:Connect(function()
-		if flingtbl.OldPos ~= nil then
-			rootpart.CFrame = flingtbl.OldPos
-		end
-		if flingtbl.OldVelocity ~= nil then
-			rootpart.Velocity = flingtbl.OldVelocity
-		end
-	end)
-	wait(2)
-	rootpart.Anchored = true
-	if flingtbl.isRunning ~= nil then
-		flingtbl.isRunning:Disconnect()
-		flingtbl.isRunning = nil
-	end
-	rootpart.Anchored = false
-	if flingtbl.OldVelocity ~= nil then
-		rootpart.Velocity = flingtbl.OldVelocity
-	end
-	if flingtbl.OldPos ~= nil then
-		rootpart.CFrame = flingtbl.OldPos
-	end
-	wait()
-	flingtbl.OldVelocity = nil
-	flingtbl.OldPos = nil
 	flinging = false
+	wait(.1)
+	local speakerChar = speaker.Character
+	if not speakerChar or not getRoot(speakerChar) then return end
+	for i,v in pairs(getRoot(speakerChar):GetChildren()) do
+		if v.ClassName == 'BodyAngularVelocity' then
+			v:Destroy()
+		end
+	end
+	for _, child in pairs(speakerChar:GetDescendants()) do
+		if child.ClassName == "Part" or child.ClassName == "MeshPart" then
+			child.CustomPhysicalProperties = PhysicalProperties.new(0.7, 0.3, 0.5)
+		end
+	end
 end)
 
 addcmd('togglefling',{},function(args, speaker)
@@ -11212,7 +11222,6 @@ function kill(speaker,target,fast)
 				wait()
 				hrp.CFrame = CFrame.new(999999, workspace.FallenPartsDestroyHeight + 5,999999)
 			until not getRoot(target.Character) or not getRoot(speaker.Character)
-			wait(1)
 			speaker.CharacterAdded:Wait():WaitForChild("HumanoidRootPart").CFrame = NormPos
 		end
 	else
@@ -11296,7 +11305,6 @@ function bring(speaker,target,fast)
 				wait()
 				hrp.CFrame = NormPos
 			until not getRoot(target.Character) or not getRoot(speaker.Character)
-			wait(1)
 			speaker.CharacterAdded:Wait():WaitForChild("HumanoidRootPart").CFrame = NormPos
 		end
 	else
@@ -11688,7 +11696,7 @@ addcmd('trip',{},function(args, speaker)
 		local hum = speaker.Character:FindFirstChildOfClass("Humanoid")
 		local root = getRoot(speaker.Character)
 		hum:ChangeState(0)
-        root.Velocity = root.CFrame.LookVector * 30
+		root.Velocity = root.CFrame.LookVector * 30
 	end
 end)
 
@@ -11736,9 +11744,6 @@ addcmd('freezeunanchored',{'freezeua'},function(args, speaker)
 							c:Destroy()
 						end
 					end
-					if not simRadius then
-						execCmd('simulationradius')
-					end
 					local bodypos = Instance.new("BodyPosition")
 					bodypos.Parent = v
 					bodypos.Position = v.Position
@@ -11766,9 +11771,6 @@ addcmd('thawunanchored',{'thawua','unfreezeunanchored','unfreezeua'},function(ar
 	if sethidden then
 		if freezingua then
 			freezingua:Disconnect()
-		end
-		if not simRadius then
-			execCmd('simulationradius')
 		end
 		for i,v in pairs(frozenParts) do
 			for i,c in pairs(v:GetChildren()) do
@@ -11803,9 +11805,6 @@ addcmd('tpunanchored',{'tpua'},function(args, speaker)
 						table.insert(frozenParts,part)
 					end
 				end
-			end
-			if not simRadius then
-				execCmd('simulationradius')
 			end
 			for i,c in pairs(Forces) do
 				c.Position = Players[v].Character.Head.Position
